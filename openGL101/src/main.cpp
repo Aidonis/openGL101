@@ -6,15 +6,22 @@
 #include <glm\glm.hpp>
 #include <glm\ext.hpp>
 
+#include "Planets/Planet.h"
+
 //Sphere Variables
 glm::vec3 planetCenter = { 1,1,1 };
 float planetRadius = 2.f;
 int planetRows = 20;
 int planetCols = 20;
-const glm::vec4& planetColor = { .5f, 0, .8f, 1 };
+glm::vec4 planetColor = { .5f, 0, .8f, 1 };
 glm::mat4 planetTransform;
 
 int main() {
+
+	//Planet Making
+	Planet earth(planetRadius, 15,15,planetColor,planetTransform);
+	earth.setCenter(glm::vec3(0, 2, 0));
+	
 	if (glfwInit() == false)
 		return -1;
 
@@ -73,15 +80,12 @@ int main() {
 			
 		}
 
+		//Update
+		planetTransform = glm::translate(glm::vec3(0, 1, 0)) * glm::rotate(1.14f * current, glm::vec3(0, 1, 0));
+		earth.setTransform(planetTransform);
+
 		//Draw Sphere
-		Gizmos::addSphere(planetCenter, planetRadius, planetRows, planetCols, planetColor, &planetTransform);
-
-		//
-		planetTransform = glm::translate(glm::vec3(0, 1, 0))
-			//Planet Props
-			* glm::rotate(current * 1.14f, glm::vec3(0, 1, .2f));
-			//* glm::translate(glm::vec3(0, 0.f, 2.f));
-
+		earth.Draw();
 		//
 		Gizmos::draw(projection * view);
 		glfwSwapBuffers(window);
