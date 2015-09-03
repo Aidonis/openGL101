@@ -1,11 +1,9 @@
-#ifndef _APP_H_
-#define _APP_H_
-
+﻿#pragma once
 #include <glm/glm.hpp>
 
 struct GLFWwindow;
 
-class
+class Application
 {
 	GLFWwindow *window;
 	float deltaTime, totalTime, lastTime;
@@ -22,10 +20,7 @@ public:
 	virtual void onStep() {};
 	virtual void onDraw() {};
 
-	float getDeltaTime() { return deltaTime };
-	float getTotalTime() { return totalTime };
+	float getDeltaTime() { return deltaTime; };
+	float getTotalTime() { return totalTime; };
+	
 };
-
-
-
-#endif //_APP_H_
