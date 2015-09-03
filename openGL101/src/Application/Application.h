@@ -1,26 +1,58 @@
 ﻿#pragma once
-#include <glm/glm.hpp>
+#include <gl_core_4_4.h>
+#include <GLFW\glfw3.h>
+
+#include <aie\Gizmos.h>
+#include <glm\glm.hpp>
+#include <glm\ext.hpp>
+
+#include <string>
+
+#include "../Planets/Planet.h"
 
 struct GLFWwindow;
 
-class Application
-{
-	GLFWwindow *window;
-	float deltaTime, totalTime, lastTime;
+
+
+enum ApplicationFail{
+	NONE,
+	GLFW_INIT,
+	GLFW_CREATE_WINDOW,
+	OGL_LOAD_FUNCTIONS
+};
+
+class Application{
+
+	std::string name_string;
+	int width, height;
+
+	GLFWwindow* window;
+	float elapsedTime, currentTime, previousTime, lagTime;
 	glm::mat4 projection, view;
 
+	const double TICK_PER_SEC_D_;
+
+	Planet* earth;
+
 public:
-	void init(int w, int h, const char *title);
-	void term();
-	void step();
-	void draw();
+	Application();
+	Application(std::string set_name);
+	Application(std::string set_name, int set_width, int set_height);
+	~Application();
 
-	virtual void onInit() {};
-	virtual void onTerm() {};
-	virtual void onStep() {};
-	virtual void onDraw() {};
+	ApplicationFail Init();
+	void Shutdown();
 
-	float getDeltaTime() { return deltaTime; };
-	float getTotalTime() { return totalTime; };
-	
+	bool Update();
+	void Tick();
+	void Draw();
+
+	virtual void onInit(){ };
+
+	virtual void onTerm(){ };
+
+	virtual void onStep(){ };
+
+	virtual void onDraw(){ };
+
 };
