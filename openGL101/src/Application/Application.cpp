@@ -9,9 +9,10 @@ Application::Application(std::string set_name, int set_width, int set_height) : 
 	width = set_width;
 	height = set_height;
 	window = nullptr;
+	camera = nullptr;
 
-	//view = glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
-	//projection = glm::perspective(glm::pi<float>() * 0.25f, 16 / 9.0f, 0.1f, 1000.f);
+	view = glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
+	projection = glm::perspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 1000.f);
 
 	currentTime = 0.0f;
 	elapsedTime = 0.0f;
@@ -35,6 +36,12 @@ ApplicationFail Application::Init() {
 
 	glfwMakeContextCurrent(window);
 
+	//Camera
+	camera = new FlyCamera(0.01f);
+	camera->SetPerspective(glm::pi<float>() * 0.25f, SIXTEEN_NINE, 0.1f, 1000.f);
+	camera->SetLookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
+
+
 	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
 		glfwDestroyWindow(window);
 		glfwTerminate();
@@ -43,8 +50,7 @@ ApplicationFail Application::Init() {
 
 	Gizmos::create();
 
-	view = glm::lookAt(glm::vec3(10, 10, 10), glm::vec3(0), glm::vec3(0, 1, 0));
-	projection = glm::perspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 1000.f);
+
 
 	//Set Clear Screen color
 	glClearColor(0.25f, 0.25f, 0.25f, 1);
@@ -60,15 +66,18 @@ ApplicationFail Application::Init() {
 }
 
 void Application::Shutdown(){
-	delete earth;
+	delete(earth);
+	delete(camera);
 	Gizmos::destroy();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
 void Application::Tick(){
-	while(lagTime >= TICK_PER_SEC_D_){		
-		earth->setGlobalRotation(1.14f * currentTime, glm::vec3(0, 1, 0));
+	while(lagTime >= TICK_PER_SEC_D_){
+		camera->Update();
+
+		earth->setGlobalRotation(3.14f * currentTime, glm::vec3(0, 1, 0));
 		earth->Update();
 
 		lagTime -= TICK_PER_SEC_D_;
@@ -86,7 +95,11 @@ void Application::Draw(){
 	}
 	//Setup Planet Draw
 	earth->Draw();
-	Gizmos::draw(projection * view);
+	
+
+	//Camera Draw
+	camera->UpdateProjectionViewTransform();
+	Gizmos::draw(camera->camera_view_transform1());
 }
 
 bool Application::Update(){

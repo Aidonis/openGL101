@@ -9,6 +9,8 @@
 #include <string>
 
 #include "../Planets/Planet.h"
+#include "../Camera/Camera.h"
+#include "../Camera/FlyCamera.h"
 
 struct GLFWwindow;
 
@@ -33,6 +35,7 @@ class Application{
 	const double TICK_PER_SEC_D_;
 
 	Planet* earth;
+	Camera* camera;
 
 public:
 	Application();
