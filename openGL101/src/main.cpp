@@ -1,4 +1,4 @@
-#include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
 
 #include "Application/Application.h"
 
@@ -13,6 +13,8 @@ int main() {
 		{
 			app->Tick();
 			app->Draw();
+			app->GenerateGrid(5, 5);
+			//app->createOpenGLBuffers(app->shapes);
 		}
 		app->Shutdown();
 	}

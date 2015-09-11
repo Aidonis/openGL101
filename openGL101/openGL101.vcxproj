@@ -155,10 +155,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\aie\Gizmos.h" />
+    <ClInclude Include="crenderobject.h" />
+    <ClInclude Include="crenderutils.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Application\Application.h" />
     <ClInclude Include="src\Camera\FlyCamera.h" />
     <ClInclude Include="src\Planets\Planet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\dep\glfw3.lib" />
+    <Library Include="..\dep\tinyobjloader.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,6 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Library Files">
+      <UniqueIdentifier>{635df6c7-28c1-460c-b26a-d7ec27b56cf2}</UniqueIdentifier>
+      <Extensions>lib;</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -53,5 +57,19 @@
     <ClInclude Include="src\Camera\FlyCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="crenderobject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crenderutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\dep\tinyobjloader.lib">
+      <Filter>Library Files</Filter>
+    </Library>
+    <Library Include="..\dep\glfw3.lib">
+      <Filter>Library Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

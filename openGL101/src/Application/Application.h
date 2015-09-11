@@ -7,10 +7,19 @@
 #include <glm\ext.hpp>
 
 #include <string>
+#include <vector>
+#include <iostream>
 
 #include "../Planets/Planet.h"
 #include "../Camera/Camera.h"
 #include "../Camera/FlyCamera.h"
+
+#include <TinyBuild/tiny_obj_loader.h>
+
+
+#include <STB/stb_image.h>
+
+
 
 struct GLFWwindow;
 
@@ -20,7 +29,15 @@ enum ApplicationFail{
 	NONE,
 	GLFW_INIT,
 	GLFW_CREATE_WINDOW,
-	OGL_LOAD_FUNCTIONS
+	OGL_LOAD_FUNCTIONS,
+	LOAD_MODEL,
+	LOAD_TEXTURE
+};
+
+struct Vertex {
+	glm::vec4 position;
+	glm::vec4 color;
+	glm::vec2 UV;
 };
 
 class Application{
@@ -37,6 +54,13 @@ class Application{
 	Planet* earth;
 	Camera* camera;
 
+	//Buffersa
+	unsigned int VAO, VBO, IBO;
+	unsigned int programID;
+
+	unsigned int textureID;
+
+
 public:
 	Application();
 	Application(std::string set_name);
@@ -47,6 +71,7 @@ public:
 	void Shutdown();
 
 	bool Update();
+	void GenerateGrid(unsigned rows, unsigned cols);
 	void Tick();
 	void Draw();
 
@@ -57,5 +82,21 @@ public:
 	virtual void onStep(){ };
 
 	virtual void onDraw(){ };
+
+	//OBJ Loader
+	struct GLInfo {
+		unsigned int VAO, VBO, IBO, indexCount;
+	};
+
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::vector<GLInfo> glInfo;
+
+	void createOpenGLBuffers(std::vector<tinyobj::shape_t>& shapes);
+
+	struct Image {
+		int width, height, format;
+		unsigned char* data;
+	} ImageInfo;
 
 };
